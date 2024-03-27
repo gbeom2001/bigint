@@ -2,4 +2,6 @@
 
 main.c를 컴파일한후 목적프로그램을 실행파일로 만들어주면된다
 
-최대 first second 100자리까지 더할수 있다
+최대 first second 100자리까지 더할수 있다\
+
+main브랜치에 병합이 안되서 다른 브랜치에 나중파일 다올렸습니다 최종버전 파일에 new-branch-file의 main2.cpp입니다
