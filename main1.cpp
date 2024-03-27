@@ -1,148 +1,175 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+
 using namespace std;
 
-int main()
+void big(char* first, char* second, int v) 
 {
-string first;
-string second;
-string sum;
-string sub;
+    
+    char sum[100]={'0',};  // 덧셈 저장할 문자열
+    char sub[100]={'0',};  // 뺄셈 저장할 문자열
+    int up = 0;  // 올림값을 저장할 변수
+    int down = 0;
+    bool zero = false;
+    //  덧셈
+    
+    for (int i = 99; i >= 0; --i) {
+        int x = (first[i] - '0') + (second[i] - '0') + up;
+        sum[i] = (x % 10) + '0';  // 현재 자릿수에 대한 결과를 저장
+        up = x / 10; // 다음 자릿수로 올림
+    }
 
-int f=0;
-int s=0;
+    cout << "Sum            >>" ;
+    if (up > 0) 
+    {
+    cout << '1';
+    }
 
-cout << "First number  >>";
-cin >> first;
-cout << "Second number  >>";
-cin >> second;
+    for(int i = 0; i <= 99; i++)
+    {
+        if (zero) {
+            cout << sum[i];
+        } else if (sum[i] >= '0'&& sum[i] <= '9') {
+            zero = true;
+            cout << sum[i];
+        }
 
-f=first.length();
-s=second.length();
-int fn = f%9;
-int sn = s%9;
-int fm = f/9;
-int sm = s/9;
+    }
+    cout << endl;
+    
+    //뺄셈
 
-if(f<=9&&s<=9)
-{
-    sum=stoi(first)+stoi(second);
-    sub=stoi(first)-stoi(second);
-    cout << "sum        >>" << sum << endl;
-    cout << "sub        >>" << sub << endl;
+    
+    zero = false;
 
-    return;
+    if(v==1)
+    {
+            for (int k = 99; k >= 0; --k) 
+        {
+            int y = (first[k] - '0') - (second[k] - '0') + down;
+            down=0;
+            if(y<0)
+            {
+                down=-1;
+                y=y+10;;
+            }
+            sub[k] = y + '0';  
+            
+        }
+
+        cout << "Sub            >>" ;
+
+        for(int k = 0; k <= 99; k++)
+        {
+            if (zero)
+            {
+                cout << sub[k];
+            } 
+            else if (sub[k] != '0') 
+            {
+                zero = true;
+                cout << sub[k];
+            }
+
+            
+        }
+
+    }
+
+    
+    else if(v==2)
+    {
+            for (int k = 99; k >= 0; --k) 
+        {
+            int y = (second[k] - '0') - (first[k] - '0') + down;
+            down=0;
+            if(y<0)
+            {
+                down=-1;
+                y=y+10;;
+            }
+            sub[k] = y + '0';  
+            
+        }
+        cout << "Sub            >>-" ;
+
+        for(int k = 0; k <= 99; k++)
+        {
+            if (zero)
+            {
+                cout << sub[k];
+            } 
+            else if (sub[k] != '0') 
+            {
+                zero = true;
+                cout << sub[k];
+            }
+            
+        }
+    }
+
+    else if(v==3)
+    {
+        cout << "Sub            >> 0";
+    }
+    
+
+    
 }
 
-else
-{
-    int fc[100];
-    int i=1;
-    if(fn!=0)
-    {
-    
-    fc[0]=stoi(first.substr(0, fn));
-    }
-    else i--;
+int main() {
+   
 
-    for( i;i<=fm;i++)
-    {
-        fc[i]=stoi(first.substr(0, 9));
-    }
-//
-    int sc[100];
-    int j=1;
-    if(sn!=0)
-    {
-    
-    sc[0]=stoi(second.substr(0, 9));
-    }
-    else i--;
+    // 큰 수를 문자열로 표현
+    char* first = new char[100];
+    memset(first, 0, 100);
+    char* second = new char[100];
+    memset(second, 0, 100);
+    string f;
+    string s;
+    cout << "First number   >>";
+    cin >> f;
+    cout << "Second number  >>";
+    cin >> s;
 
-    for( j;j<=sm;j++)
+    int fl = f.length();
+    int sl = s.length();
+
+    for (int i = 0; i < fl; ++i) 
     {
-        sc[i]=stoi(second.substr(0, 9));
+        first[i + (100 - fl)] = f[i];
     }
-//
-    int total[100];
-    int mtotal[100];
-    if(i==j)
+
+    for (int i = 0; i < sl; ++i) 
     {
-        for(i;i>=0;i--)
+        second[i + (100 - sl)] = s[i];
+    }
+
+    int v=0;
+    if(fl > sl ) v=1;
+    else if(fl < sl ) v=2;
+    else
+    {
+        for (int i = 0; i < fl; i++) 
         {
-            total[i]=fc[i]+sc[i];
-        
-            if(total[i]>1000000000 && i!=0)
+            if (f[i] > s[i])
             {
-                total[i-1]=total[i-1]+1;
-                total[i]=total[i]-1000000000;
-            }
-            if(fc[0]>sc[0])
-            {
-                mtotal[i]=fc[i]-sc[i];
-                mtotal[i-1]=mtotal[i-1]-1;
-                mtotal[i]=mtotal[i]+1000000000;
+            v=1;
 
-            }
-            if(fc[0]<sc[0])
+            } 
+            else if (f[i] < s[i]) 
             {
-                mtotal[i]=sc[i]-fc[i];
-                mtotal[i-1]=mtotal[i-1]-1;
-                mtotal[i]=mtotal[i]+1000000000;
-
+            v=2;
             }
+            else v=3;
+        }
 
         
-        }
-
-    }
-    if(i>j)
-    {
-
-        int k = i-j;
-        for(i;i>=0;i--)
-        {
-            total[i]=fc[i]+sc[i];
-            mtotal[i]=fc[i]-sc[i];
-            if(total[i]>1000000000 && i!=0)
-            {
-                total[i-1]=total[i-1]+1;
-                total[i]=total[i]-1000000000;
-            }
-
-            if(mtotal[i]<0)
-            {
-                mtotal[i-1]=mtotal[i-1]-1;
-                mtotal[i]=mtotal[i]+1000000000;
-
-            }
-        }
-
-    }
-    if(i<j)
-    {
-        for(i;i>=0;i--)
-        {
-            total[i]=fc[i]+sc[i];
-            mtotal[i]=sc[i]-fc[i];
-            if(total[i]>1000000000 && && i!=0)
-            {
-                total[i-1]=total[i-1]+1;
-                total[i]=total[i]-1000000000;
-            }
-
-            if(mtotal[i]<0)
-            {
-                mtotal[i-1]=mtotal[i-1]-1;
-                mtotal[i]=mtotal[i]+1000000000;
-
-            }
-
-        }
-
     }
 
-}
-
+    // 덧셈 수행
+    big(first, second, v);
+   
+    return 0;
 }

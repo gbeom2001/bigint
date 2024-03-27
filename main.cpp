@@ -4,7 +4,7 @@
 using namespace std;
 
 
-
+//문자열 배열 9칸씩 해서 stoi 사용하려함
 int main()
 {
 string first;
